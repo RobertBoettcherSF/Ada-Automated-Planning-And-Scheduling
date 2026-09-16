@@ -143,22 +143,34 @@ begin
       Raised_EDF  : Boolean := False;
    begin
       begin
-         declare Res : constant Schedule_Array := Schedule_FCFS (Bad_Tasks); begin null; end;
+         declare 
+            Res : constant Schedule_Array := Schedule_FCFS (Bad_Tasks); 
+            pragma Unreferenced (Res);
+         begin null; end;
       exception when Invalid_Tasks => Raised_FCFS := True;
       end;
 
       begin
-         declare Res : constant Schedule_Array := Schedule_SJN (Bad_Tasks); begin null; end;
+         declare 
+            Res : constant Schedule_Array := Schedule_SJN (Bad_Tasks); 
+            pragma Unreferenced (Res);
+         begin null; end;
       exception when Invalid_Tasks => Raised_SJN := True;
       end;
 
       begin
-         declare Res : constant Schedule_Array := Schedule_SRTF (Bad_Tasks); begin null; end;
+         declare 
+            Res : constant Schedule_Array := Schedule_SRTF (Bad_Tasks); 
+            pragma Unreferenced (Res);
+         begin null; end;
       exception when Invalid_Tasks => Raised_SRTF := True;
       end;
 
       begin
-         declare Res : constant Schedule_Array := Schedule_EDF (Bad_Tasks); begin null; end;
+         declare 
+            Res : constant Schedule_Array := Schedule_EDF (Bad_Tasks); 
+            pragma Unreferenced (Res);
+         begin null; end;
       exception when Invalid_Tasks => Raised_EDF := True;
       end;
 
@@ -177,17 +189,26 @@ begin
       Raised_EDF  : Boolean := False;
    begin
       begin
-         declare Res : constant Schedule_Array := Schedule_FCFS (Empty_Tasks); begin null; end;
+         declare 
+            Res : constant Schedule_Array := Schedule_FCFS (Empty_Tasks); 
+            pragma Unreferenced (Res);
+         begin null; end;
       exception when Empty_Task_List => Raised_FCFS := True;
       end;
 
       begin
-         declare Res : constant Schedule_Array := Schedule_SJN (Empty_Tasks); begin null; end;
+         declare 
+            Res : constant Schedule_Array := Schedule_SJN (Empty_Tasks); 
+            pragma Unreferenced (Res);
+         begin null; end;
       exception when Empty_Task_List => Raised_SJN := True;
       end;
 
       begin
-         declare Res : constant Schedule_Array := Schedule_EDF (Empty_Tasks); begin null; end;
+         declare 
+            Res : constant Schedule_Array := Schedule_EDF (Empty_Tasks); 
+            pragma Unreferenced (Res);
+         begin null; end;
       exception when Empty_Task_List => Raised_EDF := True;
       end;
 
