@@ -21,9 +21,9 @@ begin
    Put_Line ("TEST 1 — FCFS Basic Functional");
    declare
       Tasks : constant Task_Array :=
-        ((Id => 1, Arrival => 0, Burst => 5, Deadline => 10),
+        [(Id => 1, Arrival => 0, Burst => 5, Deadline => 10),
          (Id => 2, Arrival => 2, Burst => 3, Deadline => 10),
-         (Id => 3, Arrival => 5, Burst => 2, Deadline => 10));
+         (Id => 3, Arrival => 5, Burst => 2, Deadline => 10)];
       Res : constant Schedule_Array := Schedule_FCFS (Tasks);
    begin
       Check ("1.1 Correct number of events (3)", Res'Length = 3);
@@ -35,9 +35,9 @@ begin
    Put_Line ("TEST 2 — SJN Basic Functional");
    declare
       Tasks : constant Task_Array :=
-        ((Id => 1, Arrival => 0, Burst => 10, Deadline => 20),
+        [(Id => 1, Arrival => 0, Burst => 10, Deadline => 20),
          (Id => 2, Arrival => 1, Burst => 2, Deadline => 20),
-         (Id => 3, Arrival => 2, Burst => 1, Deadline => 20));
+         (Id => 3, Arrival => 2, Burst => 1, Deadline => 20)];
       Res : constant Schedule_Array := Schedule_SJN (Tasks);
    begin
       -- SJN is non-preemptive. T1 starts, T2 and T3 wait. T3 is shorter so runs second.
@@ -50,9 +50,9 @@ begin
    Put_Line ("TEST 3 — SRTF Basic Functional");
    declare
       Tasks : constant Task_Array :=
-        ((Id => 1, Arrival => 0, Burst => 10, Deadline => 20),
+        [(Id => 1, Arrival => 0, Burst => 10, Deadline => 20),
          (Id => 2, Arrival => 1, Burst => 2, Deadline => 20),
-         (Id => 3, Arrival => 2, Burst => 1, Deadline => 20));
+         (Id => 3, Arrival => 2, Burst => 1, Deadline => 20)];
       Res : constant Schedule_Array := Schedule_SRTF (Tasks);
    begin
       -- Expected order: T1(0-1), T2(1-3) merged because T2 still shortest at T=2, T3(3-4), T1(4-13)
@@ -65,9 +65,9 @@ begin
    Put_Line ("TEST 4 — EDF Basic Functional");
    declare
       Tasks : constant Task_Array :=
-        ((Id => 1, Arrival => 0, Burst => 3, Deadline => 10),
+        [(Id => 1, Arrival => 0, Burst => 3, Deadline => 10),
          (Id => 2, Arrival => 1, Burst => 2, Deadline => 4),
-         (Id => 3, Arrival => 2, Burst => 1, Deadline => 2));
+         (Id => 3, Arrival => 2, Burst => 1, Deadline => 2)];
       Res : constant Schedule_Array := Schedule_EDF (Tasks);
    begin
       -- T=0: T1. T=1: T2 has tighter deadline, preempts. T=2: T3 has tighter deadline, preempts.
@@ -81,8 +81,8 @@ begin
    Put_Line ("TEST 5 — FCFS Gap Handling");
    declare
       Tasks : constant Task_Array :=
-        ((Id => 1, Arrival => 0, Burst => 2, Deadline => 10),
-         (Id => 2, Arrival => 5, Burst => 2, Deadline => 10));
+        [(Id => 1, Arrival => 0, Burst => 2, Deadline => 10),
+         (Id => 2, Arrival => 5, Burst => 2, Deadline => 10)];
       Res : constant Schedule_Array := Schedule_FCFS (Tasks);
    begin
       Check ("5.1 Exactly 2 events despite gap", Res'Length = 2);
@@ -94,9 +94,9 @@ begin
    Put_Line ("TEST 6 — SJN Identical Bursts");
    declare
       Tasks : constant Task_Array :=
-        ((Id => 1, Arrival => 0, Burst => 5, Deadline => 10),
+        [(Id => 1, Arrival => 0, Burst => 5, Deadline => 10),
          (Id => 2, Arrival => 6, Burst => 2, Deadline => 10),
-         (Id => 3, Arrival => 6, Burst => 2, Deadline => 10));
+         (Id => 3, Arrival => 6, Burst => 2, Deadline => 10)];
       Res : constant Schedule_Array := Schedule_SJN (Tasks);
    begin
       -- Gap from 5 to 6. Both T2 and T3 arrive at 6 with Burst 2. Tie break falls to Arrival (equal), then ID.
@@ -109,8 +109,8 @@ begin
    Put_Line ("TEST 7 — SRTF Continuous Preemption");
    declare
       Tasks : constant Task_Array :=
-        ((Id => 1, Arrival => 0, Burst => 10, Deadline => 20),
-         (Id => 2, Arrival => 2, Burst => 2, Deadline => 20));
+        [(Id => 1, Arrival => 0, Burst => 10, Deadline => 20),
+         (Id => 2, Arrival => 2, Burst => 2, Deadline => 20)];
       Res : constant Schedule_Array := Schedule_SRTF (Tasks);
    begin
       -- T=0: T1 to T=2. T=2: T2 to T=4. T=4: T1 resumes.
@@ -123,8 +123,8 @@ begin
    Put_Line ("TEST 8 — EDF Identical Deadlines");
    declare
       Tasks : constant Task_Array :=
-        ((Id => 1, Arrival => 0, Burst => 2, Deadline => 5),
-         (Id => 2, Arrival => 1, Burst => 2, Deadline => 5));
+        [(Id => 1, Arrival => 0, Burst => 2, Deadline => 5),
+         (Id => 2, Arrival => 1, Burst => 2, Deadline => 5)];
       Res : constant Schedule_Array := Schedule_EDF (Tasks);
    begin
       -- Both D=5. T1 runs 0..1. At T=1, T1 rem=1 D=5, T2 rem=2 D=5. Tie on D. Arrival breaks it. T1 continues.
@@ -136,7 +136,7 @@ begin
    -- TEST 9 — Exception Invalid Parameters
    Put_Line ("TEST 9 — Exception Invalid Parameters");
    declare
-      Bad_Tasks   : constant Task_Array := ((Id => 1, Arrival => 0, Burst => 0, Deadline => 10));
+      Bad_Tasks   : constant Task_Array := [(Id => 1, Arrival => 0, Burst => 0, Deadline => 10)];
       Raised_FCFS : Boolean := False;
       Raised_SJN  : Boolean := False;
       Raised_SRTF : Boolean := False;
@@ -171,7 +171,7 @@ begin
    -- TEST 10 — Exception Empty List
    Put_Line ("TEST 10 — Exception Empty List");
    declare
-      Empty_Tasks : constant Task_Array (1 .. 0) := (others => <>);
+      Empty_Tasks : constant Task_Array (1 .. 0) := [];
       Raised_FCFS : Boolean := False;
       Raised_SJN  : Boolean := False;
       Raised_EDF  : Boolean := False;
@@ -199,7 +199,7 @@ begin
    -- TEST 11 — Single Task Processing
    Put_Line ("TEST 11 — Single Task Processing");
    declare
-      Tasks : constant Task_Array := ((Id => 1, Arrival => 5, Burst => 5, Deadline => 15));
+      Tasks : constant Task_Array := [(Id => 1, Arrival => 5, Burst => 5, Deadline => 15)];
       Res_FCFS : constant Schedule_Array := Schedule_FCFS (Tasks);
       Res_SJN  : constant Schedule_Array := Schedule_SJN (Tasks);
       Res_SRTF : constant Schedule_Array := Schedule_SRTF (Tasks);
@@ -215,8 +215,8 @@ begin
    Put_Line ("TEST 12 — FCFS Out of Order Arrivals");
    declare
       Tasks : constant Task_Array :=
-        ((Id => 1, Arrival => 5, Burst => 2, Deadline => 10),
-         (Id => 2, Arrival => 0, Burst => 2, Deadline => 10));
+        [(Id => 1, Arrival => 5, Burst => 2, Deadline => 10),
+         (Id => 2, Arrival => 0, Burst => 2, Deadline => 10)];
       Res : constant Schedule_Array := Schedule_FCFS (Tasks);
    begin
       Check ("12.1 FCFS identifies early arrival internally", Res(Res'First).Id = 2);
@@ -228,9 +228,9 @@ begin
    Put_Line ("TEST 13 — Extreme Data Gaps");
    declare
       Tasks : constant Task_Array :=
-        ((Id => 1, Arrival => 0, Burst => 1, Deadline => 1),
+        [(Id => 1, Arrival => 0, Burst => 1, Deadline => 1),
          (Id => 2, Arrival => 100, Burst => 1, Deadline => 101),
-         (Id => 3, Arrival => 200, Burst => 1, Deadline => 201));
+         (Id => 3, Arrival => 200, Burst => 1, Deadline => 201)];
       Res : constant Schedule_Array := Schedule_SJN (Tasks);
    begin
       Check ("13.1 Schedule processes large jumps gracefully", Res'Length = 3);
